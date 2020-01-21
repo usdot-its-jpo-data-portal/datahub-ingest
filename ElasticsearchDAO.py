@@ -1,6 +1,7 @@
 import os
 import requests
 
+ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URL') if os.environ.get('ELASTICSEARCH_API_BASE_URL') else "local"
 
 class ElasticsearchDAO:
     def __init__(self):

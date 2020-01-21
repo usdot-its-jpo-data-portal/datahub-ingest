@@ -1,1 +1,4 @@
 virtualenv/
+.coverage
+__pycache__/
+.vscode/

@@ -1,0 +1,8 @@
+[run]
+include =
+    ingest.py
+    DHDataset.py
+    SlackNotifier.py
+    NTLDataFormatter.py
+    SocrataDataFormatter.py
+    ElasticSearchDAO.py

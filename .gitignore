@@ -1,1 +1,6 @@
 virtualenv/
+.coverage
+coverage.xml
+__pycache__/
+.vscode/
+.scannerwork/

@@ -10,9 +10,9 @@ phases:
   pre_build:
     commands:
       # Unit Tests
-      - pip install -r requirements.txt
-      - coverage run -m pytest
-      - coverage xml -i
+      - cd src && pip install -r requirements.txt
+      - cd src && coverage run -m pytest
+      - cd src && coverage xml -i
       # Sonar Scan
       - export SONAR_SCANNER_VERSION=4.0.0.1744
       - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
@@ -23,7 +23,7 @@ phases:
       - rm $HOME/.sonar/sonar-scanner.zip
       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       - export SONAR_SCANNER_OPTS="-server"
-      - sonar-scanner -Dsonar.projectKey=usdot-its-jpo-data-portal_datahub-ingest -Dsonar.organization=usdot-its-jpo-data-portal -Dsonar.sources=. -Dsonar.exclusions=test_*.py -Dsonar.language=py -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.coverage.reportPaths=coverage.xml -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CODEBUILD_GIT_BRANCH
+      - cd src && sonar-scanner -Dsonar.projectKey=usdot-its-jpo-data-portal_datahub-ingest -Dsonar.organization=usdot-its-jpo-data-portal -Dsonar.sources=. -Dsonar.exclusions=test_*.py -Dsonar.language=py -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.coverage.reportPaths=coverage.xml -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CODEBUILD_GIT_BRANCH
   build:
     commands:
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)

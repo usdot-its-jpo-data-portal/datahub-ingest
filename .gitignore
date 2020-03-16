@@ -4,3 +4,5 @@ coverage.xml
 __pycache__/
 .vscode/
 .scannerwork/
+.env
+deploy.sh

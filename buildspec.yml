@@ -7,8 +7,10 @@ phases:
     commands:
       - curl -fsSL https://raw.githubusercontent.com/usdot-jpo-codehub/aws-codebuild-extras/master/install >> extras.sh
       - . ./extras.sh
+  pre_build:
+    commands:
       # Unit Tests
-      - pip install -r requirements.txt
+      - cd src && pip install -r requirements.txt
       - coverage run -m pytest
       - coverage xml -i
       # Sonar Scan
@@ -22,3 +24,18 @@ phases:
       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       - export SONAR_SCANNER_OPTS="-server"
       - sonar-scanner -Dsonar.projectKey=usdot-its-jpo-data-portal_datahub-ingest -Dsonar.organization=usdot-its-jpo-data-portal -Dsonar.sources=. -Dsonar.exclusions=test_*.py -Dsonar.language=py -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.coverage.reportPaths=coverage.xml -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CODEBUILD_GIT_BRANCH
+  build:
+    commands:
+      - cd ..
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - CODEBUILD_RESOLVED_SOURCE_VERSION="${CODEBUILD_RESOLVED_SOURCE_VERSION:-$IMAGE_TAG}"
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME"
+      - docker build --build-arg BASE_IMAGE=$BASE_IMAGE -t $IMAGE_URI:$IMAGE_TAG .
+      - |
+        if [ "$CODEBUILD_GIT_BRANCH" = "master" ] || [ "$CODEBUILD_GIT_BRANCH" = "development" ]; then
+          bash docker-run.sh
+          docker push "$IMAGE_URI:$IMAGE_TAG";
+          docker tag "$IMAGE_URI:$IMAGE_TAG" "$IMAGE_URI:latest"
+          docker push "$IMAGE_URI:latest";
+        fi

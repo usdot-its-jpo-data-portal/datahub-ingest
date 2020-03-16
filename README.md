@@ -2,7 +2,7 @@
 
 # datahub-ingest
 
-Collects metadata from ITS DataHub datasets and stores it in ElasticSearch.
+Collects metadata from ITS DataHub datasets and stores it in ElasticSearch. 
 
 ## Getting Started
 

@@ -7,7 +7,7 @@ phases:
     commands:
       - curl -fsSL https://raw.githubusercontent.com/usdot-jpo-codehub/aws-codebuild-extras/master/install >> extras.sh
       - . ./extras.sh
-  pre-build:
+  pre_build:
     commands:
       # Unit Tests
       - pip install -r requirements.txt

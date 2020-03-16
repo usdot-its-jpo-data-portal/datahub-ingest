@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Parameters:
+  ENV:
+    Type: String
+    Default: generic
+    AllowedValues:
+      - generic
+      - dev
+      - stage
+      - prod
+  SLACKWEBHOOKURL:
+    Type: String
+  ELASTICSEARCHAPIBASEURL:
+    Type: String
+Resources:
+  LambdaFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: !Sub
+        - datahub-ingest-${AWS_ENV}
+        - { AWS_ENV: !Ref ENV }
+      Role: "{{resolve:ssm:lambda-role-arn:1}}"
+      Runtime: python3.8
+      Timeout: 120
+      Memory: 512
+      Handler: main.lambda_handler
+      Environment:
+        Variables:
+          ENVIRONMENT_NAME: !Ref ENV
+          SLACK_WEBHOOK_URL: !Ref SLACKWEBHOOKURL
+          ELASTICSEARCH_API_BASE_URL: !Ref ELASTICSEARCHAPIBASEURL
+      Events:
+        Run:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)

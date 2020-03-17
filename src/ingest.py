@@ -3,6 +3,8 @@ import datetime
 import json
 import os
 import requests
+import sys
+import yaml
 
 from DHDataset import DHDataset
 from NTLDataFormatter import NTLDataFormatter
@@ -10,7 +12,7 @@ from SocrataDataFormatter import SocrataDataFormatter
 from ElasticsearchDAO import ElasticsearchDAO
 from SlackNotifier import SlackNotifier
 
-DATASET_CONFIG_FILEPATH = 'datasets.ini'
+DATASET_CONFIG_FILEPATH = 'config.yaml'
 TYPE_NTL = 'ntl'
 TYPE_SOCRATA = 'socrata'
 
@@ -20,18 +22,21 @@ SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL') if os.environ.get(
 
 
 def lambda_handler(event, context):
-    config = configparser.ConfigParser()
-    config.read(DATASET_CONFIG_FILEPATH)
-    ndf = NTLDataFormatter()
-    sdf = SocrataDataFormatter()
-    esdao = ElasticsearchDAO()
-    snf = SlackNotifier(ENVIRONMENT_NAME, SLACK_WEBHOOK_URL)
-    ingest(event, config, ndf,
-           sdf, esdao, snf)
+    ntl_data_formatter = NTLDataFormatter()
+    socrata_data_formatter = SocrataDataFormatter()
+    elasticsearch_dao = ElasticsearchDAO()
+    slack_notifier = SlackNotifier(ENVIRONMENT_NAME, SLACK_WEBHOOK_URL)
+    ingest(event, ntl_data_formatter,
+           socrata_data_formatter, elasticsearch_dao, slack_notifier)
 
 
-def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsearch_dao, slack_notifier):
-    datasource = config[event['datasource']]
+def ingest(event, ntl_data_formatter, socrata_data_formatter, elasticsearch_dao, slack_notifier):
+    with open("config.yaml", 'r') as stream:
+        config = yaml.load(stream, Loader=yaml.FullLoader)
+
+    datasource_name = event['datasource']
+    datasource = config['data-sources'][datasource_name]
+
     try:
         datasets = makeQueryCall(datasource['url'])
 
@@ -48,8 +53,12 @@ def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsea
         slack_notifier.sendSlackNotification("Error ingesting " +
                                              event['datasource'] + " ==> " + str(e))
 
-
 def makeQueryCall(queryURL):
     r = requests.get(queryURL)
     response = json.loads(r.text)
     return response
+
+if (__name__ == '__main__'):
+    event={'datasource': str(sys.argv[1])}
+    lambda_handler(event, None)
+

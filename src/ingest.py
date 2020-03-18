@@ -1,10 +1,10 @@
-import configparser
 import datetime
 import json
 import os
 import requests
 import sys
 import yaml
+import argparse
 
 from DHDataset import DHDataset
 from NTLDataFormatter import NTLDataFormatter
@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     socrata_data_formatter = SocrataDataFormatter()
     elasticsearch_dao = ElasticsearchDAO()
     slack_notifier = SlackNotifier(ENVIRONMENT_NAME, SLACK_WEBHOOK_URL)
-    with open("config.yaml", 'r') as stream:
+    with open(DATASET_CONFIG_FILEPATH, 'r') as stream:
         config = yaml.load(stream, Loader=yaml.FullLoader)
     ingest(event, config, ntl_data_formatter,
            socrata_data_formatter, elasticsearch_dao, slack_notifier)
@@ -59,6 +59,8 @@ def makeQueryCall(queryURL):
     return response
 
 if (__name__ == '__main__'):
-    event={'datasource': str(sys.argv[1])}
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--datasource', choices=['dtg','ntl','scgc'], required=True)
+    args = parser.parse_args()
+    event={'datasource': args.datasource}
     lambda_handler(event, None)
-

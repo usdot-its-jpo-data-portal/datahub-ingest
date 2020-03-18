@@ -26,13 +26,13 @@ def lambda_handler(event, context):
     socrata_data_formatter = SocrataDataFormatter()
     elasticsearch_dao = ElasticsearchDAO()
     slack_notifier = SlackNotifier(ENVIRONMENT_NAME, SLACK_WEBHOOK_URL)
-    ingest(event, ntl_data_formatter,
+    with open("config.yaml", 'r') as stream:
+        config = yaml.load(stream, Loader=yaml.FullLoader)
+    ingest(event, config, ntl_data_formatter,
            socrata_data_formatter, elasticsearch_dao, slack_notifier)
 
 
-def ingest(event, ntl_data_formatter, socrata_data_formatter, elasticsearch_dao, slack_notifier):
-    with open("config.yaml", 'r') as stream:
-        config = yaml.load(stream, Loader=yaml.FullLoader)
+def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsearch_dao, slack_notifier):
 
     datasource_name = event['datasource']
     datasource = config['data-sources'][datasource_name]

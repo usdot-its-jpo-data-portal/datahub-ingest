@@ -31,6 +31,12 @@ Resources:
           ENVIRONMENT_NAME: !Ref ENV
           SLACK_WEBHOOK_URL: !Ref SLACKWEBHOOKURL
           ELASTICSEARCH_API_BASE_URL: !Ref ELASTICSEARCHAPIBASEURL
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-05376b3fbd359fd50
+        SubnetIds:
+          - subnet-0396d7969408b8fc6
+          - subnet-0fe00748331f38c54
       Events:
         Run:
           Type: Schedule

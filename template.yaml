@@ -17,6 +17,7 @@ Resources:
   LambdaFunction:
     Type: "AWS::Serverless::Function"
     Properties:
+      CodeUri: src
       FunctionName: !Sub
         - datahub-ingest-${AWS_ENV}
         - { AWS_ENV: !Ref ENV }

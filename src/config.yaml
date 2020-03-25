@@ -1,0 +1,10 @@
+data-sources:
+  dtg:
+    url: "https://api.us.socrata.com/api/catalog/v1?q=data&search_context=data.transportation.gov&domains=data.transportation.gov&tags=intelligent%20transportation%20systems%20(its)&provenance=official"
+    type: "socrata"
+  scgc:
+    url: "https://api.us.socrata.com/api/catalog/v1?q=data&search_context=datahub.transportation.gov&domains=datahub.transportation.gov&tags=intelligent%20transportation%20systems%20(its)&provenance=official"
+    type: "socrata"
+  ntl:
+    url: "https://rosap.ntl.bts.gov/fedora/export/view/collection/dot:239?from=2019-05-24T00:00:00Z&rows=9999"
+    type: "ntl"

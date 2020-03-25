@@ -3,6 +3,8 @@ import datetime
 import json
 import os
 import requests
+import yaml
+import argparse
 
 from DHDataset import DHDataset
 from NTLDataFormatter import NTLDataFormatter
@@ -10,7 +12,7 @@ from SocrataDataFormatter import SocrataDataFormatter
 from ElasticsearchDAO import ElasticsearchDAO
 from SlackNotifier import SlackNotifier
 
-DATASET_CONFIG_FILEPATH = 'datasets.ini'
+DATASET_CONFIG_FILEPATH = 'config.yaml'
 TYPE_NTL = 'ntl'
 TYPE_SOCRATA = 'socrata'
 
@@ -20,18 +22,21 @@ SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL') if os.environ.get(
 
 
 def lambda_handler(event, context):
-    config = configparser.ConfigParser()
-    config.read(DATASET_CONFIG_FILEPATH)
-    ndf = NTLDataFormatter()
-    sdf = SocrataDataFormatter()
-    esdao = ElasticsearchDAO()
-    snf = SlackNotifier(ENVIRONMENT_NAME, SLACK_WEBHOOK_URL)
-    ingest(event, config, ndf,
-           sdf, esdao, snf)
+    ntl_data_formatter = NTLDataFormatter()
+    socrata_data_formatter = SocrataDataFormatter()
+    elasticsearch_dao = ElasticsearchDAO()
+    slack_notifier = SlackNotifier(ENVIRONMENT_NAME, SLACK_WEBHOOK_URL)
+    with open(DATASET_CONFIG_FILEPATH, 'r') as stream:
+        config = yaml.load(stream, Loader=yaml.FullLoader)
+    ingest(event, config, ntl_data_formatter,
+           socrata_data_formatter, elasticsearch_dao, slack_notifier)
 
 
 def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsearch_dao, slack_notifier):
-    datasource = config[event['datasource']]
+
+    datasource_name = event['datasource']
+    datasource = config['data-sources'][datasource_name]
+
     try:
         datasets = makeQueryCall(datasource['url'])
 
@@ -39,7 +44,7 @@ def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsea
             results = ntl_data_formatter.getNTLDataObjects(datasets)
         elif datasource['type'] == TYPE_SOCRATA:
             results = socrata_data_formatter.getSocrataDataObjects(
-                datasets, datasource)
+                datasets, datasource_name)
         else:
             raise ValueError("Unknown datasource type: %s" %
                              datasource['type'])
@@ -48,8 +53,14 @@ def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsea
         slack_notifier.sendSlackNotification("Error ingesting " +
                                              event['datasource'] + " ==> " + str(e))
 
-
 def makeQueryCall(queryURL):
     r = requests.get(queryURL)
     response = json.loads(r.text)
     return response
+
+if (__name__ == '__main__'):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--datasource', choices=['dtg','ntl','scgc'], required=True)
+    args = parser.parse_args()
+    event={'datasource': args.datasource}
+    lambda_handler(event, None)

@@ -17,7 +17,7 @@ class IngestTest(unittest.TestCase):
                   json={'response':'fake_response'}, status=200)
 
         test_event = {"datasource":"ntl"}
-        test_config = {"ntl":{"type":"ntl", "url":"http://test_ntl_url"}}
+        test_config = {"data-sources":{"ntl":{"type":"ntl", "url":"http://test_ntl_url"}}}
         mock_ntl_data_formatter = NTLDataFormatter()
         mock_ntl_data_formatter.getNTLDataObjects = MagicMock()
 
@@ -35,7 +35,7 @@ class IngestTest(unittest.TestCase):
                   json={'response':'fake_response'}, status=200)
 
         test_event = {"datasource":"dtg"}
-        test_config = {"dtg":{"type":"socrata", "url":"http://test_dtg_url"}}
+        test_config = {"data-sources":{"dtg":{"type":"socrata", "url":"http://test_dtg_url"}}}
         mock_socrata_data_formatter = SocrataDataFormatter()
         mock_socrata_data_formatter.getSocrataDataObjects = MagicMock()
 
@@ -53,7 +53,7 @@ class IngestTest(unittest.TestCase):
                   json={'response':'fake_response'}, status=200)
 
         test_event = {"datasource":"dtg"}
-        test_config = {"dtg":{"type":"unknown_type", "url":"http://unkown_test_url"}}
+        test_config = {"data-sources":{"dtg":{"type":"unknown_type", "url":"http://unkown_test_url"}}}
 
         mock_slack_notifier = SlackNotifier(None, None)
         mock_slack_notifier.sendSlackNotification = MagicMock()

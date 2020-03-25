@@ -53,9 +53,9 @@ class SocrataDataFormatter:
             ds.source_url = doc['link']
 
             metrics = {}
-            metrics['downloads_total'] = doc['resource']['download_count']
-            metrics['page_views_last_month'] = doc['resource']['page_views']['page_views_last_month']
-            metrics['page_views_total'] = doc['resource']['page_views']['page_views_total']
+            metrics['downloadsTotal'] = doc['resource']['download_count']
+            metrics['pageViewsLastMonth'] = doc['resource']['page_views']['page_views_last_month']
+            metrics['pageViewsTotal'] = doc['resource']['page_views']['page_views_total']
 
             ds.metrics = metrics
 

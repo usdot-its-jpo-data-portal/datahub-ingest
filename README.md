@@ -29,6 +29,10 @@ Run `pip install -r requirements.txt`
 
 Install virtualenv, Python 3, and then run `unittest.sh`.
 
+## Local Execution
+
+`python ingest.py -d {dtg|ntl|scgc}`
+
 ### Code style tests
 
 Run `pip install pylint` followed by `pylint .`.
@@ -56,7 +60,7 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 ## Code.gov Registration Info
 
 Agency: DOT
-Short Description: The ITS DataHub dataset ingest lambad function.
+Short Description: The ITS DataHub dataset ingest lambda function.
 Status: Beta
 Tags: transportation, connected vehicles, intelligent transportation systems, python, lambda
 Labor Hours: 0

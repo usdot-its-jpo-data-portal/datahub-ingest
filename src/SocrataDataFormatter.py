@@ -1,4 +1,5 @@
 import datetime
+import json
 from DHDataset import DHDataset
 
 
@@ -50,6 +51,14 @@ class SocrataDataFormatter:
             ds.tags = tags
 
             ds.source_url = doc['link']
+
+            metrics = {}
+            metrics['downloadsTotal'] = doc['resource']['download_count']
+            metrics['pageViewsLastMonth'] = doc['resource']['page_views']['page_views_last_month']
+            metrics['pageViewsTotal'] = doc['resource']['page_views']['page_views_total']
+
+            ds.metrics = metrics
+
             result.append(ds)
 
         return result

@@ -11,6 +11,7 @@ class DHDataset():
         self._dh_id = None
         self._dh_last_updated = None
         self._dh_source_name = None
+        self._metrics = {}
 
     @property
     def id(self):
@@ -91,3 +92,11 @@ class DHDataset():
     @dh_source_name.setter
     def dh_source_name(self, value):
         self._dh_source_name = value
+
+    @property
+    def metrics(self):
+        return self._metrics
+
+    @metrics.setter
+    def metrics(self, value):
+        self._metrics = value

@@ -2,7 +2,6 @@ import datetime
 import json
 import os
 import requests
-import sys
 import yaml
 import argparse
 
@@ -44,7 +43,7 @@ def ingest(event, config, ntl_data_formatter, socrata_data_formatter, elasticsea
             results = ntl_data_formatter.getNTLDataObjects(datasets)
         elif datasource['type'] == TYPE_SOCRATA:
             results = socrata_data_formatter.getSocrataDataObjects(
-                datasets, datasource)
+                datasets, datasource_name)
         else:
             raise ValueError("Unknown datasource type: %s" %
                              datasource['type'])

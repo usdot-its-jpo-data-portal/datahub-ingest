@@ -39,7 +39,18 @@ Resources:
         SecurityGroupIds: !Ref SECURITYGROUPS
         SubnetIds: !Ref SUBNETS
       Events:
-        Run:
+        ScgcIngest:
           Type: Schedule
           Properties:
             Schedule: cron(0 12 * * ? *)
+            Input: '{"datasource": "scgc"}'
+        NtlIngest:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)
+            Input: '{"datasource": "ntl"}'
+        DtgIngest:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)
+            Input: '{"datasource": "dtg"}'

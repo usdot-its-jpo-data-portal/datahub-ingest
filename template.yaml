@@ -42,15 +42,15 @@ Resources:
         ScgcIngest:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 4 * * ? *)
             Input: '{"datasource": "scgc"}'
         NtlIngest:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 4 * * ? *)
             Input: '{"datasource": "ntl"}'
         DtgIngest:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 4 * * ? *)
             Input: '{"datasource": "dtg"}'

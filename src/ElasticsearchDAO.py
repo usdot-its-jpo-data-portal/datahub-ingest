@@ -8,28 +8,29 @@ class ElasticsearchDAO:
     def __init__(self):
         pass
 
+
     def writeToElasticsearch(self, datasets):
+        esresult = requests.get(os.environ['ELASTICSEARCH_API_BASE_URL'] + '/dataassets/_search?size=10000')
+        existingDocs = json.loads(esresult.text)['hits']['hits']
         document = ''
         for dataset in datasets:
+            found = False
+            lineObj = {}
+            lineIndexObj = {}
+            for x in existingDocs:
+                if x['_source']['id'] == dataset.id: # if document already exists, load and modify
+                    found = True
+                    lineObj['doc'] = self.mapObjDoc(dataset,x)
+                    lineIndexObj['update'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
+                    break
+                
+            if found == False:
+                lineObj = self.mapObjDoc(dataset,{})
+                lineIndexObj['index'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
 
-            line_index_obj = {}
-            line_index_obj['index'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
 
-            lineobj = {}
-            lineobj['id'] = dataset.id
-            lineobj['name'] = dataset.name
-            lineobj['description'] = self.cleanText(dataset.description)
-            lineobj['accessLevel'] = dataset.access_level
-            lineobj['lastUpdate'] = dataset.last_updated
-            lineobj['tags'] = dataset.tags
-            lineobj['sourceUrl'] = dataset.source_url
-            lineobj['metrics'] = dataset.metrics
-            lineobj['dhId'] = dataset.dh_id
-            lineobj['dhLastUpdate'] = dataset.dh_last_updated
-            lineobj['dhSourceName'] = dataset.dh_source_name
-
-            document += json.dumps(line_index_obj) + '\r\n'
-            document += json.dumps(lineobj) + '\r\n'
+            document += json.dumps(lineIndexObj) + '\r\n'
+            document += json.dumps(lineObj) + '\r\n'
 
         if(document != ''):
             print('Writing data to ES')
@@ -40,6 +41,23 @@ class ElasticsearchDAO:
 
         else:
             print('Elasticsearch already up to date.')
+
+    def mapObjDoc(self, dataset, lineobjDoc):
+        lineobjDoc['id'] = dataset.id
+        lineobjDoc['name'] = dataset.name
+        lineobjDoc['description'] = self.cleanText(dataset.description)
+        lineobjDoc['accessLevel'] = dataset.access_level
+        lineobjDoc['lastUpdate'] = dataset.last_updated
+        lineobjDoc['tags'] = dataset.tags
+        lineobjDoc['sourceUrl'] = dataset.source_url
+        lineobjDoc['metrics'] = dataset.metrics
+        lineobjDoc['dhId'] = dataset.dh_id
+        lineobjDoc['dhLastUpdate'] = dataset.dh_last_updated
+        lineobjDoc['dhSourceName'] = dataset.dh_source_name
+
+        return lineobjDoc
+
+
 
 
     def cleanText(self, txt):

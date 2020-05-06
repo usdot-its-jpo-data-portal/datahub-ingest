@@ -2,14 +2,13 @@ import os
 import requests
 import json
 
-ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URL') if os.environ.get('ELASTICSEARCH_API_BASE_URL') else "local"
 
 class ElasticsearchDAO:
     def __init__(self):
         pass
 
-
     def writeToElasticsearch(self, datasets):
+        ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URLXXX') if os.environ.get('ELASTICSEARCH_API_BASE_URLXXX') else "http://local"
         esresult = requests.get(ELASTICSEARCH_API_BASE_URL + '/dataassets/_search?size=10000')
         existingDocs = json.loads(esresult.text)['hits']['hits']
         document = ''

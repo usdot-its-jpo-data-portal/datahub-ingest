@@ -6,7 +6,6 @@ source virtualenv_temp/bin/activate
 echo "Activated Virtualenv."
 echo "Installing dependencies..."
 pip install -r requirements.txt
-export ELASTICSEARCH_API_BASE_URL='http://local' 
 coverage run -m pytest
 coverage report -m
 echo "Unit tests complete."

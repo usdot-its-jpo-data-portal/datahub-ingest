@@ -10,7 +10,7 @@ class ElasticsearchDAO:
 
 
     def writeToElasticsearch(self, datasets):
-        esresult = requests.get(os.environ['ELASTICSEARCH_API_BASE_URL'] + '/dataassets/_search?size=10000')
+        esresult = requests.get(ELASTICSEARCH_API_BASE_URL + '/dataassets/_search?size=10000')
         existingDocs = json.loads(esresult.text)['hits']['hits']
         document = ''
         for dataset in datasets:
@@ -36,7 +36,7 @@ class ElasticsearchDAO:
             print('Writing data to ES')
             header = {'Content-type': 'application/json'}
             es_post_response = requests.post(
-                os.environ['ELASTICSEARCH_API_BASE_URL'] + '/_bulk', data=document, headers=header)
+                ELASTICSEARCH_API_BASE_URL + '/_bulk', data=document, headers=header)
             print('Data written to ES')
 
         else:

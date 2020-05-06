@@ -8,7 +8,7 @@ class ElasticsearchDAO:
         pass
 
     def writeToElasticsearch(self, datasets):
-        ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URLXXX') if os.environ.get('ELASTICSEARCH_API_BASE_URLXXX') else "http://local"
+        ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URL') if os.environ.get('ELASTICSEARCH_API_BASE_URL') else "http://local"
         esresult = requests.get(ELASTICSEARCH_API_BASE_URL + '/dataassets/_search?size=10000')
         existingDocs = json.loads(esresult.text)['hits']['hits']
         document = ''

@@ -1,0 +1,116 @@
+{
+  "results": [
+    {
+      "resource": {
+        "name": "Work Zone Data Initiative Partnership",
+        "id": "jixs-h7uw",
+        "parent_fxf": [
+          "69qe-yiui",
+          "wd94-wugt",
+          "pzz5-b5me"
+        ],
+        "description": "",
+        "attribution": null,
+        "attribution_link": null,
+        "contact_email": null,
+        "type": "story",
+        "updatedAt": "2020-03-20T20:52:06.198Z",
+        "createdAt": "2019-12-16T23:02:55.000Z",
+        "metadata_updated_at": "2019-12-16T23:28:28.000Z",
+        "data_updated_at": "2019-12-16T23:02:55.000Z",
+        "page_views": {
+          "page_views_last_week": 208,
+          "page_views_last_month": 391,
+          "page_views_total": 1054,
+          "page_views_last_week_log": 7.7073591320808825,
+          "page_views_last_month_log": 8.614709844115207,
+          "page_views_total_log": 10.043027283594549
+        },
+        "columns_name": [],
+        "columns_field_name": [],
+        "columns_datatype": [],
+        "columns_description": [],
+        "columns_format": [],
+        "download_count": 0,
+        "provenance": "official",
+        "lens_view_type": "story",
+        "blob_mime_type": null,
+        "hide_from_data_json": false,
+        "publication_date": "2019-12-16T23:28:28.000Z"
+      },
+      "classification": {
+        "categories": [],
+        "tags": [],
+        "domain_tags": [],
+        "domain_metadata": []
+      },
+      "metadata": {
+        "domain": "datahub.transportation.gov"
+      },
+      "permalink": "https://datahub.transportation.gov/stories/s/jixs-h7uw",
+      "link": "https://datahub.transportation.gov/stories/s/jixs-h7uw",
+      "owner": {
+        "id": "9k5r-tgy7",
+        "display_name": "RDAE Support"
+      }
+    },
+    {
+      "resource": {
+        "name": "Connected Vehicle Pilot (CVP) Open Data",
+        "id": "hr8h-ufhq",
+        "parent_fxf": null,
+        "description": "ITS JPO's Connected Vehicle Pilot Deployment Program integrates connected vehicle research concepts into practical and effective elements to enhance existing operational capabilities. Data were collected throughout each pilot to facilitate independent evaluations of the use of connected vehicle technology on real roadways.\n\nTo encourage additional study and reuse of these data, ITS DataHub has partnered with each pilot site to make sanitized and anonymized tabular and non-tabular data from these projects available to the public. This article gives you a brief overview of what each pilot focused on and what types of CV Pilot data and tools are available on ITS DataHub.",
+        "attribution": null,
+        "attribution_link": null,
+        "contact_email": null,
+        "type": "story",
+        "updatedAt": "2020-04-15T17:44:50.206Z",
+        "createdAt": "2020-03-16T16:17:41.000Z",
+        "metadata_updated_at": "2020-04-15T17:35:48.000Z",
+        "data_updated_at": "2020-03-16T16:17:41.000Z",
+        "page_views": {
+          "page_views_last_week": 51,
+          "page_views_last_month": 86,
+          "page_views_total": 297,
+          "page_views_last_week_log": 5.700439718141093,
+          "page_views_last_month_log": 6.442943495848729,
+          "page_views_total_log": 8.219168520462162
+        },
+        "columns_name": [],
+        "columns_field_name": [],
+        "columns_datatype": [],
+        "columns_description": [],
+        "columns_format": [],
+        "download_count": 0,
+        "provenance": "official",
+        "lens_view_type": "story",
+        "blob_mime_type": null,
+        "hide_from_data_json": false,
+        "publication_date": "2020-03-20T04:33:09.000Z"
+      },
+      "classification": {
+        "categories": [],
+        "tags": [],
+        "domain_tags": [],
+        "domain_metadata": []
+      },
+      "metadata": {
+        "domain": "datahub.transportation.gov"
+      },
+      "permalink": "https://datahub.transportation.gov/stories/s/hr8h-ufhq",
+      "link": "https://datahub.transportation.gov/stories/s/hr8h-ufhq",
+      "owner": {
+        "id": "9k5r-tgy7",
+        "display_name": "RDAE Support"
+      }
+    }
+  ],
+  "resultSetSize": 2,
+  "timings": {
+    "serviceMillis": 40,
+    "searchMillis": [
+      20,
+      10
+    ]
+  }
+}

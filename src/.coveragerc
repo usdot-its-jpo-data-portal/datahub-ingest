@@ -5,4 +5,6 @@ include =
     SlackNotifier.py
     NTLDataFormatter.py
     SocrataDataFormatter.py
+    SocrataStoryFormatter.py
     ElasticSearchDAO.py
+    FormatterFactory.py

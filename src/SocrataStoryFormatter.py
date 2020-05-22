@@ -3,7 +3,7 @@ from DHDataset import DHDataset
 from FormatterInterface import FormatterInterface
 
 
-class SocrataDataFormatter(FormatterInterface):
+class SocrataStoryFormatter(FormatterInterface):
 
     def __init__(self):
         pass
@@ -19,7 +19,7 @@ class SocrataDataFormatter(FormatterInterface):
             dt_str = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
             ds = DHDataset()
-            ds.dh_type = 'Dataset'
+            ds.dh_type = 'Document'
             ds.dh_source_name = dataset_name
             ds.dh_id = '{}-{}'.format(ds.dh_source_name, doc['resource']['id'])
             ds.dh_last_updated = dt_str

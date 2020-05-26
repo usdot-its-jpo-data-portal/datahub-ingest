@@ -6,4 +6,5 @@ __pycache__/
 .scannerwork/
 .env
 deploy.sh
+.venv*
 venv**

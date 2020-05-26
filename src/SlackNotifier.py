@@ -2,7 +2,7 @@ import requests
 
 
 class SlackNotifier:
-    def __init__(self, env_name, slack_webhook_url):
+    def __init__(self, env_name=None, slack_webhook_url=None):
         self.env_name = env_name
         self.slack_webhook_url = slack_webhook_url
 

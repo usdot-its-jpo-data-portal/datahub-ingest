@@ -54,3 +54,8 @@ Resources:
           Properties:
             Schedule: cron(0 4 * * ? *)
             Input: '{"datasource": "dtg"}'
+        StoryIngest:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 4 * * ? *)
+            Input: '{"datasource": "story"}'

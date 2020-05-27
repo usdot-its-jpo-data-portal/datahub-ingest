@@ -1,12 +1,13 @@
 import datetime
 from DHDataset import DHDataset
+from FormatterInterface import FormatterInterface
 
 
-class NTLDataFormatter:
+class NTLDataFormatter(FormatterInterface):
     def __init__(self):
         pass
 
-    def getNTLDataObjects(self, datasets):
+    def get_data_objects(self, datasets, dataset_name=None) -> [DHDataset]:
         result = []
         for doc in datasets['response']['docs']:
             if doc is None:
@@ -18,6 +19,7 @@ class NTLDataFormatter:
             dt_str = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
             ds = DHDataset()
+            ds.dh_type = 'Dataset'
             ds.dh_source_name = 'ntl'
             ds.dh_id = '{}-{}'.format(ds.dh_source_name, doc['PID'])
             ds.dh_last_updated = dt_str

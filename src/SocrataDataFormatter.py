@@ -2,6 +2,8 @@ import datetime
 from DHDataset import DHDataset
 from FormatterInterface import FormatterInterface
 
+import doi_tools
+
 
 class SocrataDataFormatter(FormatterInterface):
 
@@ -59,6 +61,11 @@ class SocrataDataFormatter(FormatterInterface):
             metrics['pageViewsTotal'] = doc['resource']['page_views']['page_views_total']
 
             ds.metrics = metrics
+
+            if('attribution' in doc['resource']):
+                ds.doi = doi_tools.extractDOI(doc['resource']['attribution'])
+            else:
+                ds.doi = 'INVALID'
 
             result.append(ds)
 

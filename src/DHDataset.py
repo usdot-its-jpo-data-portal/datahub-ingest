@@ -13,6 +13,7 @@ class DHDataset():
         self._dh_source_name = None
         self._dh_type = None
         self._metrics = {}
+        self._doi = None
 
     @property
     def id(self):
@@ -109,3 +110,11 @@ class DHDataset():
     @metrics.setter
     def metrics(self, value):
         self._metrics = value
+
+    @property
+    def doi(self):
+        return self._doi
+    
+    @doi.setter
+    def doi(self, value):
+        self._doi = value

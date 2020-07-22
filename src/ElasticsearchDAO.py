@@ -52,6 +52,7 @@ class ElasticsearchDAO(object):
         newLineobjDoc['tags'] = dataset.tags
         newLineobjDoc['sourceUrl'] = dataset.source_url
         newLineobjDoc['metrics'] = dataset.metrics
+        newLineobjDoc['doi'] = dataset.doi
         newLineobjDoc['dhId'] = dataset.dh_id
         newLineobjDoc['dhLastUpdate'] = dataset.dh_last_updated
         newLineobjDoc['dhSourceName'] = dataset.dh_source_name

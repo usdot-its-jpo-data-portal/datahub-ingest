@@ -16,11 +16,11 @@ class DHDataset():
         self._doi = None
 
     @property
-    def id(self):
+    def dh_id(self):
         return self._id
 
     @id.setter
-    def id(self, value):
+    def dh_id(self, value):
         self._id = value
 
     @property

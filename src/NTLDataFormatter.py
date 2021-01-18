@@ -6,7 +6,7 @@ import doi_tools
 
 class NTLDataFormatter(FormatterInterface):
     def __init__(self):
-        pass
+        pass    #this is empty explain why
 
     def get_data_objects(self, datasets, dataset_name=None) -> [DHDataset]:
         result = []

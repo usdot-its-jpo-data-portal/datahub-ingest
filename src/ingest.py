@@ -26,7 +26,7 @@ def ingest(event, config):
     datasource = config['data-sources'][datasource_name]
 
     try:
-        datasets = makeQueryCall(datasource['url'])
+        datasets = make_QueryCall(datasource['url'])
         formatter = FormatterFactory().get_formatter(datasource['type'])
         if formatter is None:
             raise ValueError("Unknown datasource type: %s" %
@@ -41,8 +41,8 @@ def ingest(event, config):
                       SLACK_WEBHOOK_URL).sendSlackNotification(msg)
 
 
-def makeQueryCall(queryURL):
-    r = requests.get(queryURL)
+def make_QueryCall(query_URL):
+    r = requests.get(query_URL)
     response = json.loads(r.text)
     return response
 

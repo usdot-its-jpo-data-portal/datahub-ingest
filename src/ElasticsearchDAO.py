@@ -7,29 +7,29 @@ class ElasticsearchDAO(object):
     def __init__(self):
         super().__init__()
 
-    def write_To_Elasticsearch(self, datasets):
+    def write_to_elasticsearch(self, datasets):
         ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URL')\
                                      if os.environ.get('ELASTICSEARCH_API_BASE_URL') is not None else 'http://localhost'
         esresult = requests.get(ELASTICSEARCH_API_BASE_URL + '/dataassets/_search?size=10000')
-        existing_Docs = json.loads(esresult.text)['hits']['hits']
+        existing_docs = json.loads(esresult.text)['hits']['hits']
         document = ''
         for dataset in datasets:
             found = False
             line_Obj = {}
             line_IndexObj = {}
-            for x in existing_Docs:
+            for x in existing_docs:
                 if x['_source']['id'] == dataset.id:  # if document already exists, load and modify
                     found = True
-                    lineObj['doc'] = self.mapObjDoc(dataset, x)
+                    line_Obj['doc'] = self.mapObjDoc(dataset, x)
                     lineIndexObj['update'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
                     break
 
             if found is False:
-                lineObj = self.mapObjDoc(dataset, {})
+                line_Obj = self.mapObjDoc(dataset, {})
                 lineIndexObj['index'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
 
             document += json.dumps(line_IndexObj) + '\r\n'
-            document += json.dumps(lineObj) + '\r\n'
+            document += json.dumps(line_Obj) + '\r\n'
 
         if(document != ''):
             print('Writing data to ES')

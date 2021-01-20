@@ -63,7 +63,7 @@ class SocrataDataFormatter(FormatterInterface):
             ds.metrics = metrics
 
             if('attribution' in doc['resource']):
-                ds.doi = doi_tools.extractDOI(doc['resource']['attribution'])
+                ds.doi = doi_tools.extract_doi(doc['resource']['attribution'])
             else:
                 ds.doi = 'INVALID'
 

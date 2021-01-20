@@ -38,11 +38,11 @@ def ingest(event, config):
     except Exception as e:
         msg = "Error ingesting " + event['datasource'] + " ==> " + str(e)
         SlackNotifier(ENVIRONMENT_NAME,
-                      SLACK_WEBHOOK_URL).sendSlackNotification(msg)
+                      SLACK_WEBHOOK_URL).send_slack_notification(msg)
 
 
-def make_QueryCall(query_URL):
-    r = requests.get(query_URL)
+def make_query_call(query_url):
+    r = requests.get(query_url)
     response = json.loads(r.text)
     return response
 

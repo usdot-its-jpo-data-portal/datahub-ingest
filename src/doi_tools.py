@@ -1,7 +1,7 @@
 import re
 from urllib.parse import urlparse
 
-def extract_DOI(inputstring):
+def extract_doi(inputstring):
     url = extract_URLFromString(inputstring)
 
     if (url != 'NOT FOUND'): # Valid URL found in string
@@ -18,7 +18,7 @@ def extract_DOI(inputstring):
 
     return result
 
-def extract_URLFromString(inputstring):
+def extract_url_from_string(inputstring):
     try:
         result = re.search("(?P<url>https?://[^\s]+)", inputstring).group("url").replace('\"', '')
     except:

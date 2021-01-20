@@ -23,11 +23,11 @@ class IngestTest(unittest.TestCase):
             self.mock_data = json.load(mock_file)
 
     @responses.activate
-    def test_makeQueryCall(self):
+    def test_make_query_call(self):
         mock_data = UtilsTest().get_dtg_mock_data()
         responses.add(responses.GET, self.mock_dataset_url,
                       json=mock_data, status=200)
-        resp = ingest.makeQueryCall(self.mock_dataset_url)
+        resp = ingest.make_query_call(self.mock_dataset_url)
         self.assertIsNotNone(resp)
 
     @patch.object(ElasticsearchDAO, 'writeToElasticsearch')
@@ -36,7 +36,7 @@ class IngestTest(unittest.TestCase):
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
 
-        ingest.makeQueryCall = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
+        ingest.make_query_call = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
 
         mock_formatter_factory = FormatterFactory()
         mock_formatter_factory.get_formatter = MagicMock(return_value=NTLDataFormatter())
@@ -45,40 +45,40 @@ class IngestTest(unittest.TestCase):
         mock_formatter.get_data_objects = MagicMock()
 
         mock_slack_notifier = SlackNotifier(None, None)
-        mock_slack_notifier.sendSlackNotification = MagicMock()
+        mock_slack_notifier.send_slack_notification = MagicMock()
 
         ingest.ingest(test_event, test_config)
 
         mock_writeToElasticsearch.assert_called_once()
 
     @patch.object(FormatterFactory, 'get_formatter')
-    @patch.object(SlackNotifier, 'sendSlackNotification')
-    def test_ingest_invalid_formatter(self, mock_sendSlackNotification, mock_get_formatter):
+    @patch.object(SlackNotifier, 'send_slack_notification')
+    def test_ingest_invalid_formatter(self, mock_send_slack_notification, mock_get_formatter):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
 
-        ingest.makeQueryCall = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
+        ingest.make_query_call = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
 
         mock_get_formatter.return_value = None
 
         ingest.ingest(test_event, test_config)
 
         mock_get_formatter.assert_called_once()
-        mock_sendSlackNotification.assert_called_once()
+        mock_send_slack_notification.assert_called_once()
 
     @patch.object(ElasticsearchDAO, 'writeToElasticsearch')
-    @patch.object(SlackNotifier, 'sendSlackNotification')
-    def test_ingest_error_on_es(self, mock_sendSlackNotification, mock_writeToElasticsearch):
+    @patch.object(SlackNotifier, 'send_slack_notification')
+    def test_ingest_error_on_es(self, mock_send_slack_notification, mock_writeToElasticsearch):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
 
-        ingest.makeQueryCall = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
+        ingest.make_query_call = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
 
         mock_writeToElasticsearch.side_effect = Exception("Test Exception")
 
         ingest.ingest(test_event, test_config)
 
         mock_writeToElasticsearch.assert_called_once()
-        mock_sendSlackNotification.assert_called_once()
+        mock_send_slack_notification.assert_called_once()

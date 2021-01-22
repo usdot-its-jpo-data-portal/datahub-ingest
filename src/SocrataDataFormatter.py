@@ -8,7 +8,7 @@ import doi_tools
 class SocrataDataFormatter(FormatterInterface):
 
     def __init__(self):
-        pass  #this is empty explain why
+        pass  #intentionally empty constructor
 
     def get_data_objects(self, datasets, dataset_name) -> [DHDataset]:
         result = []

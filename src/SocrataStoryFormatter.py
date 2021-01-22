@@ -6,7 +6,7 @@ from FormatterInterface import FormatterInterface
 class SocrataStoryFormatter(FormatterInterface):
 
     def __init__(self):
-        pass  #this is empty explain why
+        pass  #intentionally empty constructor
 
     def get_data_objects(self, datasets, dataset_name) -> [DHDataset]:
         result = []

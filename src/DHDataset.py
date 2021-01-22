@@ -16,11 +16,11 @@ class DHDataset():
         self._doi = None
 
     @property
-    def datah_id(self):
+    def id(self):
         return self._id
 
     @id.setter
-    def datah_id(self, value):
+    def id(self, value):
         self._id = value
 
     @property
@@ -72,12 +72,12 @@ class DHDataset():
         self._source_url = value
 
     @property
-    def datah_id(self):
-        return self._datah_id
+    def dh_id(self):
+        return self._dh_id
 
     @dh_id.setter
-    def datah_id(self, value):
-        self._datah_id = value
+    def dh_id(self, value):
+        self._dh_id = value
 
     @property
     def dh_last_updated(self):

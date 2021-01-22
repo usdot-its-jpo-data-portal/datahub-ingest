@@ -41,7 +41,7 @@ class NTLDataFormatter(FormatterInterface):
 
             ds.tags = tags
 
-            ntl_id = ds.id.split(':')[1]
+            id = ds.id.split(':')[1]
             ds.source_url = '{}{}'.format(
                 'https://rosap.ntl.bts.gov/view/dot/', id)
 

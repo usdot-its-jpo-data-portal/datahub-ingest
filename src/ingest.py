@@ -26,7 +26,7 @@ def ingest(event, config):
     datasource = config['data-sources'][datasource_name]
 
     try:
-        datasets = make_QueryCall(datasource['url'])
+        datasets = make_query_call(datasource['url'])
         formatter = FormatterFactory().get_formatter(datasource['type'])
         if formatter is None:
             raise ValueError("Unknown datasource type: %s" %
@@ -34,7 +34,7 @@ def ingest(event, config):
 
         results = formatter.get_data_objects(datasets, datasource_name)
 
-        ElasticsearchDAO().writeToElasticsearch(results)
+        ElasticsearchDAO().write_to_elasticsearch(results)
     except Exception as e:
         msg = "Error ingesting " + event['datasource'] + " ==> " + str(e)
         SlackNotifier(ENVIRONMENT_NAME,

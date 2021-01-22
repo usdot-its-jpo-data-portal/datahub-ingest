@@ -2,7 +2,7 @@ import re
 from urllib.parse import urlparse
 
 def extract_doi(inputstring):
-    url = extract_URLFromString(inputstring)
+    url = extract_url_from_string(inputstring)
 
     if (url != 'NOT FOUND'): # Valid URL found in string
         urltuple = urlparse(url)

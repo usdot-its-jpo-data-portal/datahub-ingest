@@ -30,7 +30,7 @@ class IngestTest(unittest.TestCase):
         resp = ingest.make_query_call(self.mock_dataset_url)
         self.assertIsNotNone(resp)
 
-    @patch.object(ElasticsearchDAO, 'writeToElasticsearch')
+    @patch.object(ElasticsearchDAO, 'write_to_elasticsearch')
     def test_ingest_ok(self, mock_writeToElasticsearch):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
@@ -67,7 +67,7 @@ class IngestTest(unittest.TestCase):
         mock_get_formatter.assert_called_once()
         mock_send_slack_notification.assert_called_once()
 
-    @patch.object(ElasticsearchDAO, 'writeToElasticsearch')
+    @patch.object(ElasticsearchDAO, 'write_to_elasticsearch')
     @patch.object(SlackNotifier, 'send_slack_notification')
     def test_ingest_error_on_es(self, mock_send_slack_notification, mock_writeToElasticsearch):
         test_event = {"datasource": "ntl"}

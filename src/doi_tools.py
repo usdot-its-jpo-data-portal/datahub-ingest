@@ -23,5 +23,5 @@ def extract_url_from_string(inputstring):
         result = re.search("(?P<url>https?://[^\s]+)", inputstring).group("url").replace('\"', '')
     except:
         result = "NOT FOUND"
-        raise
+
     return result

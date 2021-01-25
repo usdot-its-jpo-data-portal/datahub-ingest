@@ -42,7 +42,7 @@ class ElasticsearchDAO(object):
         else:
             print('Elasticsearch already up to date.')
 
-    def map_obj_doc(self, dataset, line_obj_Doc):
+    def map_obj_doc(self, dataset, line_obj_doc):
         new_lineobj_doc = {}
         new_lineobj_doc['id'] = dataset.id
         new_lineobj_doc['name'] = dataset.name
@@ -57,10 +57,10 @@ class ElasticsearchDAO(object):
         new_lineobj_doc['dhLastUpdate'] = dataset.dh_last_updated
         new_lineobj_doc['dhSourceName'] = dataset.dh_source_name
         new_lineobj_doc['dhType'] = dataset.dh_type
-        new_lineobj_doc['dhProjects'] = line_obj_Doc['_source']['dhProjects']\
-            if ('_source' in line_obj_Doc and 'dhProjects' in line_obj_Doc['_source']) else []
-        new_lineobj_doc['dhDataTypes'] = line_obj_Doc['_source']['dhDataTypes']\
-            if ('_source' in line_obj_Doc and 'dhDataTypes' in line_obj_Doc['_source']) else []
+        new_lineobj_doc['dhProjects'] = line_obj_doc['_source']['dhProjects']\
+            if ('_source' in line_obj_doc and 'dhProjects' in line_obj_doc['_source']) else []
+        new_lineobj_doc['dhDataTypes'] = line_obj_doc['_source']['dhDataTypes']\
+            if ('_source' in line_obj_doc and 'dhDataTypes' in line_obj_doc['_source']) else []
         return new_lineobj_doc
 
     def clean_text(self, txt):

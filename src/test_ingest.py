@@ -23,7 +23,7 @@ class IngestTest(unittest.TestCase):
             self.mock_data = json.load(mock_file)
 
     @responses.activate
-    def test_make_query_call(self):
+    def test_makeQueryCall(self):
         mock_data = UtilsTest().get_dtg_mock_data()
         responses.add(responses.GET, self.mock_dataset_url,
                       json=mock_data, status=200)
@@ -52,7 +52,7 @@ class IngestTest(unittest.TestCase):
         mock_writeToElasticsearch.assert_called_once()
 
     @patch.object(FormatterFactory, 'get_formatter')
-    @patch.object(SlackNotifier, 'send_slack_notification')
+    @patch.object(SlackNotifier, 'sendSlackNotification')
     def test_ingest_invalid_formatter(self, mock_send_slack_notification, mock_get_formatter):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":

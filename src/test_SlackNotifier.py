@@ -6,7 +6,7 @@ from SlackNotifier import SlackNotifier
 
 class TestSlackNotifier(unittest.TestCase):
     @responses.activate
-    def test_send_slack_notification(self):
+    def test_sendSlackNotification(self):
 
         test_slack_url = "http://test_slack_url"
         test_env_name = "test_env_name"

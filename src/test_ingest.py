@@ -53,7 +53,7 @@ class IngestTest(unittest.TestCase):
 
     @patch.object(FormatterFactory, 'get_formatter')
     @patch.object(SlackNotifier, 'sendSlackNotification')
-    def test_ingest_invalid_formatter(self, sendSlackNotification, mock_get_formatter):
+    def test_ingest_invalid_formatter(self, mock_sendSlackNotification, mock_get_formatter):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
@@ -65,11 +65,11 @@ class IngestTest(unittest.TestCase):
         ingest.ingest(test_event, test_config)
 
         mock_get_formatter.assert_called_once()
-        sendSlackNotification.assert_called_once()
+        mock_sendSlackNotification.assert_called_once()
 
     @patch.object(ElasticsearchDAO, 'write_to_elasticsearch')
     @patch.object(SlackNotifier, 'sendSlackNotification')
-    def test_ingest_error_on_es(self, sendSlackNotification, mock_writeToElasticsearch):
+    def test_ingest_error_on_es(self, mock_sendSlackNotification, mock_writeToElasticsearch):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
@@ -81,4 +81,4 @@ class IngestTest(unittest.TestCase):
         ingest.ingest(test_event, test_config)
 
         mock_writeToElasticsearch.assert_called_once()
-        sendSlackNotification.assert_called_once()
+        mock_sendSlackNotification.assert_called_once()

@@ -21,7 +21,7 @@ def extract_doi(inputstring):
 def extract_url_from_string(inputstring):
     try:
         result = re.search("(?P<url>https?://[^\s]+)", inputstring).group("url").replace('\"', '')
-    except Exception as e:
-        result = "NOT FOUND" + str(e)
+    except:
+        result = "NOT FOUND"
 
     return result

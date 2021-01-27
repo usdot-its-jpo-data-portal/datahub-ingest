@@ -6,7 +6,7 @@ class SlackNotifier:
         self.env_name = env_name
         self.slack_webhook_url = slack_webhook_url
 
-    def send_slack_notification(self, message):
+    def sendSlackNotification(self, message):
         header = {'Content-type': 'application/json'}
         payload = '{"text":"' + self.env_name + ' | ' + message + '"}'
         return requests.post(

@@ -6,7 +6,7 @@ from SlackNotifier import SlackNotifier
 
 class TestSlackNotifier(unittest.TestCase):
     @responses.activate
-    def test_sendSlackNotification(self):
+    def sendSlackNotification(self):
 
         test_slack_url = "http://test_slack_url"
         test_env_name = "test_env_name"
@@ -16,6 +16,6 @@ class TestSlackNotifier(unittest.TestCase):
 
         test_SlackNotifier = SlackNotifier(env_name=test_env_name, slack_webhook_url=test_slack_url)
 
-        actual_response = test_SlackNotifier.send_slack_notification("test_message")
+        actual_response = test_SlackNotifier.sendSlackNotification("test_message")
 
         assert actual_response.status_code == 200

@@ -6,7 +6,7 @@ import doi_tools
 
 class NTLDataFormatter(FormatterInterface):
     def __init__(self):
-        pass
+        pass    #intentionally empty constructor
 
     def get_data_objects(self, datasets, dataset_name=None) -> [DHDataset]:
         result = []
@@ -46,7 +46,7 @@ class NTLDataFormatter(FormatterInterface):
                 'https://rosap.ntl.bts.gov/view/dot/', id)
 
             if ('mods.sm_digital_object_identifier' in doc):
-                ds.doi = doi_tools.extractDOI(doc['mods.sm_digital_object_identifier'][0])
+                ds.doi = doi_tools.extract_doi(doc['mods.sm_digital_object_identifier'][0])
             else:
                 ds.doi = 'INVALID'
 

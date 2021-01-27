@@ -7,29 +7,29 @@ class ElasticsearchDAO(object):
     def __init__(self):
         super().__init__()
 
-    def writeToElasticsearch(self, datasets):
+    def write_to_elasticsearch(self, datasets):
         ELASTICSEARCH_API_BASE_URL = os.environ.get('ELASTICSEARCH_API_BASE_URL')\
                                      if os.environ.get('ELASTICSEARCH_API_BASE_URL') is not None else 'http://localhost'
         esresult = requests.get(ELASTICSEARCH_API_BASE_URL + '/dataassets/_search?size=10000')
-        existingDocs = json.loads(esresult.text)['hits']['hits']
+        existing_docs = json.loads(esresult.text)['hits']['hits']
         document = ''
         for dataset in datasets:
             found = False
-            lineObj = {}
-            lineIndexObj = {}
-            for x in existingDocs:
+            line_obj = {}
+            line_index_obj = {}
+            for x in existing_docs:
                 if x['_source']['id'] == dataset.id:  # if document already exists, load and modify
                     found = True
-                    lineObj['doc'] = self.mapObjDoc(dataset, x)
-                    lineIndexObj['update'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
+                    line_obj['doc'] = self.map_obj_doc(dataset, x)
+                    line_index_obj['update'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
                     break
 
             if found is False:
-                lineObj = self.mapObjDoc(dataset, {})
-                lineIndexObj['index'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
+                line_obj = self.map_obj_doc(dataset, {})
+                line_index_obj['index'] = {'_id': dataset.dh_id, '_index': 'dataassets'}
 
-            document += json.dumps(lineIndexObj) + '\r\n'
-            document += json.dumps(lineObj) + '\r\n'
+            document += json.dumps(line_index_obj) + '\r\n'
+            document += json.dumps(line_obj) + '\r\n'
 
         if(document != ''):
             print('Writing data to ES')
@@ -42,28 +42,28 @@ class ElasticsearchDAO(object):
         else:
             print('Elasticsearch already up to date.')
 
-    def mapObjDoc(self, dataset, lineobjDoc):
-        newLineobjDoc = {}
-        newLineobjDoc['id'] = dataset.id
-        newLineobjDoc['name'] = dataset.name
-        newLineobjDoc['description'] = self.cleanText(dataset.description)
-        newLineobjDoc['accessLevel'] = dataset.access_level
-        newLineobjDoc['lastUpdate'] = dataset.last_updated
-        newLineobjDoc['tags'] = dataset.tags
-        newLineobjDoc['sourceUrl'] = dataset.source_url
-        newLineobjDoc['metrics'] = dataset.metrics
-        newLineobjDoc['doi'] = dataset.doi
-        newLineobjDoc['dhId'] = dataset.dh_id
-        newLineobjDoc['dhLastUpdate'] = dataset.dh_last_updated
-        newLineobjDoc['dhSourceName'] = dataset.dh_source_name
-        newLineobjDoc['dhType'] = dataset.dh_type
-        newLineobjDoc['dhProjects'] = lineobjDoc['_source']['dhProjects']\
-            if ('_source' in lineobjDoc and 'dhProjects' in lineobjDoc['_source']) else []
-        newLineobjDoc['dhDataTypes'] = lineobjDoc['_source']['dhDataTypes']\
-            if ('_source' in lineobjDoc and 'dhDataTypes' in lineobjDoc['_source']) else []
-        return newLineobjDoc
+    def map_obj_doc(self, dataset, line_obj_doc):
+        new_lineobj_doc = {}
+        new_lineobj_doc['id'] = dataset.id
+        new_lineobj_doc['name'] = dataset.name
+        new_lineobj_doc['description'] = self.clean_text(dataset.description)
+        new_lineobj_doc['accessLevel'] = dataset.access_level
+        new_lineobj_doc['lastUpdate'] = dataset.last_updated
+        new_lineobj_doc['tags'] = dataset.tags
+        new_lineobj_doc['sourceUrl'] = dataset.source_url
+        new_lineobj_doc['metrics'] = dataset.metrics
+        new_lineobj_doc['doi'] = dataset.doi
+        new_lineobj_doc['dhId'] = dataset.dh_id
+        new_lineobj_doc['dhLastUpdate'] = dataset.dh_last_updated
+        new_lineobj_doc['dhSourceName'] = dataset.dh_source_name
+        new_lineobj_doc['dhType'] = dataset.dh_type
+        new_lineobj_doc['dhProjects'] = line_obj_doc['_source']['dhProjects']\
+            if ('_source' in line_obj_doc and 'dhProjects' in line_obj_doc['_source']) else []
+        new_lineobj_doc['dhDataTypes'] = line_obj_doc['_source']['dhDataTypes']\
+            if ('_source' in line_obj_doc and 'dhDataTypes' in line_obj_doc['_source']) else []
+        return new_lineobj_doc
 
-    def cleanText(self, txt):
+    def clean_text(self, txt):
         txt = txt.replace('"', '')
         txt = txt.replace('\t', '\\t')
         txt = txt.replace('\n', '\\n')

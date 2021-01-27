@@ -27,16 +27,16 @@ class IngestTest(unittest.TestCase):
         mock_data = UtilsTest().get_dtg_mock_data()
         responses.add(responses.GET, self.mock_dataset_url,
                       json=mock_data, status=200)
-        resp = ingest.makeQueryCall(self.mock_dataset_url)
+        resp = ingest.make_query_call(self.mock_dataset_url)
         self.assertIsNotNone(resp)
 
-    @patch.object(ElasticsearchDAO, 'writeToElasticsearch')
+    @patch.object(ElasticsearchDAO, 'write_to_elasticsearch')
     def test_ingest_ok(self, mock_writeToElasticsearch):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
 
-        ingest.makeQueryCall = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
+        ingest.make_query_call = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
 
         mock_formatter_factory = FormatterFactory()
         mock_formatter_factory.get_formatter = MagicMock(return_value=NTLDataFormatter())
@@ -58,7 +58,7 @@ class IngestTest(unittest.TestCase):
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
 
-        ingest.makeQueryCall = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
+        ingest.make_query_call = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
 
         mock_get_formatter.return_value = None
 
@@ -67,14 +67,14 @@ class IngestTest(unittest.TestCase):
         mock_get_formatter.assert_called_once()
         mock_sendSlackNotification.assert_called_once()
 
-    @patch.object(ElasticsearchDAO, 'writeToElasticsearch')
+    @patch.object(ElasticsearchDAO, 'write_to_elasticsearch')
     @patch.object(SlackNotifier, 'sendSlackNotification')
     def test_ingest_error_on_es(self, mock_sendSlackNotification, mock_writeToElasticsearch):
         test_event = {"datasource": "ntl"}
         test_config = {"data-sources":
                        {"ntl": {"type": "ntl", "url": self.mock_dataset_url}}}
 
-        ingest.makeQueryCall = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
+        ingest.make_query_call = MagicMock(return_value=UtilsTest().get_ntl_mock_data())
 
         mock_writeToElasticsearch.side_effect = Exception("Test Exception")
 

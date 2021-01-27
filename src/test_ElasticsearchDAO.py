@@ -13,4 +13,4 @@ class TestElasticsearchDAO(unittest.TestCase):
         responses.add(responses.GET, ELASTICSEARCH_API_BASE_URL + "/dataassets/_search?size=10000",
                       json={'hits': {'hits': []}}, status=200)
         test_es_dao = ElasticsearchDAO()
-        test_es_dao.writeToElasticsearch([])
+        test_es_dao.write_to_elasticsearch([])

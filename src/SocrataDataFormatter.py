@@ -8,7 +8,7 @@ import doi_tools
 class SocrataDataFormatter(FormatterInterface):
 
     def __init__(self):
-        pass
+        pass  #intentionally empty constructor
 
     def get_data_objects(self, datasets, dataset_name) -> [DHDataset]:
         result = []
@@ -63,7 +63,7 @@ class SocrataDataFormatter(FormatterInterface):
             ds.metrics = metrics
 
             if('attribution' in doc['resource']):
-                ds.doi = doi_tools.extractDOI(doc['resource']['attribution'])
+                ds.doi = doi_tools.extract_doi(doc['resource']['attribution'])
             else:
                 ds.doi = 'INVALID'
 
